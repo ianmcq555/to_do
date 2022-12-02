@@ -1,25 +1,33 @@
-import logo from './logo.svg';
-import './App.css';
+import React, {useState, useEffect} from 'react'
+import Todo from './Todo'
 
-function App() {
+export default function App() {
+
+  const [todo, setTodo] = useState([{
+    message: 'Sleep',
+    completed: true
+  }])
+
+  const renderTodo = () => {
+    return todo.map((t, i)=><Todo key={i} t={t}/>)
+  }
+  const updateTodo = (e) => {
+    e.preventDefault();
+    const message = e.target.msg.value
+    const todoItem = {
+      message: message,
+      completed: false
+    }
+    setTodo([...todo, todoItem])
+  }
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div>
+      <h1>ToDo List</h1>
+      {renderTodo()}
+      <form onSubmit={(e)=>{updateTodo(e)}}>
+      <input type='text' name='msg'/>
+      <button>Add</button>
+      </form>
     </div>
-  );
+  )
 }
-
-export default App;
